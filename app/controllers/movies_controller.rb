@@ -10,7 +10,9 @@ class MoviesController < ApplicationController
     ratings = params[:ratings]
     @all_ratings = Movie.all_ratings
     @ratings_to_show = Movie.with_ratings(ratings)
+    
     @movies = Movie.all
+    @movies = Movie.where(:rating => @ratings_to_show)
   end
 
   def new
