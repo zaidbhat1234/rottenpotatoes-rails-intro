@@ -7,15 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #if (params[:sort] == "title")
-      #@movies = Movie.order(:title)
-    #else
     @movies = Movie.all
-    #end
   end
-    
-  
-  
+
   def new
     # default: render 'new' template
   end
