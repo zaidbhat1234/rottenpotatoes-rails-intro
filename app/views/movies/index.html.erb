@@ -6,13 +6,9 @@
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th class="<%= ("highlight" if @highlight == "title") %>">
-        <%= link_to 'Movie Title', movies_path(:sort => 'title'), :id => 'title_head' %>
-      </th>
+      <th>Movie Title</th>
       <th>Rating</th>
-      <th class="<%= ("highlight" if @highlight == "release_date") %>">
-        <%= link_to 'Release Date', movies_path(:sort => 'release_date'), :id => 'release_date_head' %>
-      </th>
+      <th>Release Date</th>
       <th>More Info</th>
     </tr>
   </thead>
@@ -36,9 +32,3 @@
   </tbody>
 </table>
 <%= link_to 'Add new movie', new_movie_path, :class => 'btn btn-primary' %>
-
-
-<th class="<%= ("hilite" if params[:sort] == "title") %>">
-        <%= link_to 'Movie Title', movies_path(:sort => 'title'), :id => 'title_header' %></th>
- <th class="<%= ("hilite" if params[:sort] == "release_date") %>">
-        <%= link_to 'Release Date', movies_path(:sort => 'release_date'), :id => 'release_date_header' %></th>  
