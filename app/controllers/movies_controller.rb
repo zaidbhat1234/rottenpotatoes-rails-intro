@@ -12,9 +12,10 @@ class MoviesController < ApplicationController
     else
        @movies = Movie.all
     end
-    
   end
-
+    
+  
+  
   def new
     # default: render 'new' template
   end
