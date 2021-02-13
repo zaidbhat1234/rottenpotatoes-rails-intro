@@ -10,8 +10,10 @@ class MoviesController < ApplicationController
     sort_by = params[:sort]
     if sort_by == 'title'
       @movies = Movie.order(:title)
+      @highlight = 'title'
     else
       @movies = Movie.all
+      @highlight = nil
     end
   end
 
