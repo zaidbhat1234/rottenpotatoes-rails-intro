@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
       @movies = Movie.order(:release_date)
       @highlight = 'release_date'
     else
-      #@movies = Movie.all
+      @movies
       @highlight = nil
     end
     
