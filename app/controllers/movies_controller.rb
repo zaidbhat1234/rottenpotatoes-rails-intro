@@ -22,10 +22,10 @@ class MoviesController < ApplicationController
     #Sorting by release date/title.
     sort_by = params[:sort]
     if sort_by == 'title'
-      @movies = Movie.order(:title)
+      @movies = @movies.order(:title)
       @highlight = 'title'
     elsif sort_by=='release_date'
-      @movies = Movie.order(:release_date)
+      @movies = @movies.order(:release_date)
       @highlight = 'release_date'
     else
       @movies
