@@ -10,25 +10,30 @@ class MoviesController < ApplicationController
     ratings = params[:ratings]
     @all_ratings = Movie.all_ratings
     
-    if ratings.nil?
-      ratings = @all_ratings
-    else
-      session[:ratings] = ratings #Save the checked boxes if its not nil
-      ratings = ratings.keys
+    #if ratings.nil?
+      #ratings = @all_ratings
+    #else
+      #session[:ratings] = ratings #Save the checked boxes if its not nil
+      #ratings = ratings.keys
+    #end
+    
+    if !params[:ratings].nil?
+      session[:ratings] = ratings 
     end
     
     if !params[:sort].nil?
       session[:sort] = params[:sort]
     end
       
-    @ratings_to_show = ratings
-    @movies = Movie.with_ratings(ratings)
+    #@ratings_to_show = ratings
+    #@movies = Movie.with_ratings(ratings)
     
     #Sorting by release date/title.
     sort_by = params[:sort]
     
     if (params[:ratings].nil? && !session[:ratings].nil?) || (params[:sort].nil? && !session[:sort].nil?)
       redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
+    
     else
       if params[:ratings].nil?
         ratings = @all_ratings
@@ -38,18 +43,19 @@ class MoviesController < ApplicationController
       @ratings_to_show = ratings
       @movies = Movie.with_ratings(ratings)
       
+      
+      if sort_by == 'title'
+        @movies = @movies.order(:title)
+        @highlight = 'title'
+      elsif sort_by=='release_date'
+        @movies = @movies.order(:release_date)
+        @highlight = 'release_date'
+      else
+        @ratings_to_show = ratings
+        @movies = Movie.with_ratings(ratings)
+        @highlight = nil
     end
-    
-    if sort_by == 'title'
-      @movies = @movies.order(:title)
-      @highlight = 'title'
-    elsif sort_by=='release_date'
-      @movies = @movies.order(:release_date)
-      @highlight = 'release_date'
-    else
-      @ratings_to_show = ratings
-      @movies = Movie.with_ratings(ratings)
-      @highlight = nil
+      
     end
     
     #session[:rating] = params[:rating] unless 
