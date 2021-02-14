@@ -27,18 +27,6 @@ class MoviesController < ApplicationController
     #Sorting by release date/title.
     sort_by = params[:sort]
     
-    if (params[:ratings].nil? && !session[:ratings].nil?) || (params[:sort].nil? && !session[:sort].nil?)
-      redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
-    else
-      if ratings.nil?
-        ratings = @all_ratings
-      else
-        ratings = ratings.keys
-      end
-      @ratings_to_show = ratings
-      @movies = Movie.with_ratings(ratings)
-      
-    end
     
     if sort_by == 'title'
       @movies = @movies.order(:title)
