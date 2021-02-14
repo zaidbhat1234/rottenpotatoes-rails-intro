@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
       ratings = ratings.keys
     end
     
-    if params[:sort].nil? == false
+    if !params[:sort].nil?
       session[:sort] = params[:sort]
     end
       
@@ -40,7 +40,7 @@ class MoviesController < ApplicationController
       @highlight = nil
     end
     
-    session[:rating] = params[:rating] unless 
+    #session[:rating] = params[:rating] unless 
     
   end
 
