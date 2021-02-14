@@ -21,6 +21,7 @@ class MoviesController < ApplicationController
     
     #Sorting by release date/title.
     sort_by = params[:sort]
+    
     if sort_by == 'title'
       @movies = @movies.order(:title)
       @highlight = 'title'
@@ -28,7 +29,8 @@ class MoviesController < ApplicationController
       @movies = @movies.order(:release_date)
       @highlight = 'release_date'
     else
-      @movies
+      @ratings_to_show = ratings
+      @movies = Movie.with_ratings(ratings)
       @highlight = nil
     end
     
