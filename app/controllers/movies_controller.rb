@@ -7,35 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    ratings = params[:ratings]
-    @all_ratings = Movie.all_ratings
-    
-    if ratings.nil?
-      ratings = @all_ratings
-    else
-      ratings = ratings.keys
-    end
-        
-    @ratings_to_show = ratings
-    
-    #Sorting by release date/title.
-    sort_by = params[:sort]
-    @sort_by= sort_by
-    if sort_by == 'title'
-      @sort_by = sort_by
-      #@movies = Movie.order(:title)
-      @highlight = 'title'
-    elsif sort_by=='release_date'
-      @sort_by = sort_by
-      #@movies = Movie.order(:release_date)
-      @highlight = 'release_date'
-    else
-      @sort_by = ""
-      #@movies = Movie.all
-      @highlight = nil
-      
-    end
-    @movies = Movie.with_ratings(@ratings_to_show, @sort_by)
+    @movies = Movie.all
   end
 
   def new
