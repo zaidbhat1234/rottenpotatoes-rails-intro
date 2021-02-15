@@ -36,7 +36,7 @@ class MoviesController < ApplicationController
       
     elsif params[:ratings].nil? && (session[:ratings].nil? or params[:commit]=='Refresh')
       @ratings_to_show = ratings
-      @movies = Movie.with_ratings(ratings, session[:sort])
+      @movies = Movie.with_ratings(@ratings_to_show, session[:sort])
     
     elsif !params[:sort].nil? || !params[:ratings].nil?
       if !params[:ratings].nil?
