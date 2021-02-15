@@ -40,8 +40,6 @@ class MoviesController < ApplicationController
       else
         ratings = @all_ratings
       end
-
-      
       if sort_by == 'title'
         @sort_by = sort_by
         #@movies = @movies.order(:title)
@@ -59,10 +57,11 @@ class MoviesController < ApplicationController
       
       @ratings_to_show = ratings
       @movies = Movie.with_ratings(ratings, @sort_by)
+    elsif !session[:ratings].nil? || !session[:sort].nil?
+      redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
       
     end
     
-    #session[:rating] = params[:rating] unless 
     
   end
 
