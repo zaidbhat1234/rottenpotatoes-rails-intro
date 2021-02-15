@@ -33,6 +33,10 @@ class MoviesController < ApplicationController
     
     if (params[:ratings].nil? && !session[:ratings].nil?) || (params[:sort].nil? && !session[:sort].nil?)
       redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
+      
+    elsif params[:ratings].nil? && (session[:ratings].nil? or params[:commit]=='Refresh')
+      @ratings_to_show = ratings
+      @movies = Movie.with_ratings(ratings, session[:sort])
     
     elsif !params[:sort].nil? || !params[:ratings].nil?
       if !params[:ratings].nil?
@@ -57,10 +61,7 @@ class MoviesController < ApplicationController
       
       @ratings_to_show = ratings
       @movies = Movie.with_ratings(ratings, @sort_by)
-    elsif !session[:ratings].nil? || !session[:sort].nil?
-      redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
-    else 
-      @movies = Movie.all
+    
       
     end
     
