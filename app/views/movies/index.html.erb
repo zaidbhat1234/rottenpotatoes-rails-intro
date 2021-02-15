@@ -9,6 +9,7 @@
       <%= check_box_tag "ratings[#{rating}]", "1",  @ratings_to_show.include?(rating), class: 'form-check-input' %>
     </div>
   <% end %>
+  <%= hidden_field_tag 'sort_by', @sort_by %>
   <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
 <% end %>
 
@@ -16,11 +17,11 @@
   <thead>
     <tr>
       <th class="<%= ("highlight" if @highlight == "title") %>">
-        <%= link_to 'Movie Title', movies_path(:sort => 'title'), :id => 'title_head' %>
+        <%= link_to 'Movie Title', movies_path(:sort => 'title', :ratings => @ratings_to_show.product([1]).to_h), :id => 'title_head' %>
       </th>
       <th>Rating</th>
       <th class="<%= ("highlight" if @highlight == "release_date") %>">
-        <%= link_to 'Release Date', movies_path(:sort => 'release_date'), :id => 'release_date_head' %>
+        <%= link_to 'Release Date', movies_path(:sort => 'release_date', :ratings => @ratings_to_show.product([1]).to_h), :id => 'release_date_head' %>
       <th>More Info</th>
     </tr>
   </thead>
