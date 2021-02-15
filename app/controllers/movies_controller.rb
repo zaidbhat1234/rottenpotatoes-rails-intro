@@ -10,60 +10,31 @@ class MoviesController < ApplicationController
     ratings = params[:ratings]
     @all_ratings = Movie.all_ratings
     
-    #if ratings.nil?
-      #ratings = @all_ratings
-    #else
-      #session[:ratings] = ratings #Save the checked boxes if its not nil
-      #ratings = ratings.keys
-    #end
-    
-    if !params[:ratings].nil?
-      session[:ratings] = ratings 
+    if ratings.nil?
+      ratings = @all_ratings
+    else
+      ratings = ratings.keys
     end
-    
-    if !params[:sort].nil?
-      session[:sort] = params[:sort]
-    end
-      
-    #@ratings_to_show = ratings
-    #@movies = Movie.with_ratings(ratings)
+        
+    @ratings_to_show = ratings
     
     #Sorting by release date/title.
     sort_by = params[:sort]
-    if (params[:ratings].nil? and params[:commit]=="Refresh")
-      @ratings_to_show = Movie.all_ratings
-      @movies = Movie.with_ratings(@ratings_to_show, session[:sort])
-    
-    elsif (params[:ratings].nil? && !session[:ratings].nil?) || (params[:sort].nil? && !session[:sort].nil?)
-      redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
-    
+    @sort_by=""
+    if sort_by == 'title'
+      @sort_by = sort_by
+      #@movies = Movie.order(:title)
+      @highlight = 'title'
+    elsif sort_by=='release_date'
+      @sort_by = sort_by
+      #@movies = Movie.order(:release_date)
+      @highlight = 'release_date'
     else
-      if !params[:ratings].nil?
-        ratings = params[:ratings].keys
-      else
-        ratings = @all_ratings
-      end
-      if sort_by == 'title'
-        @sort_by = sort_by
-        #@movies = @movies.order(:title)
-        @highlight = 'title'
-      elsif sort_by=='release_date'
-        @sort_by = sort_by
-        #@movies = @movies.order(:release_date)
-        @highlight = 'release_date'
-      else
-        @sort_by = ""
-        @ratings_to_show = ratings
-        #@movies = Movie.with_ratings(ratings)
-        @highlight = nil
-      end
-      
-      @ratings_to_show = ratings
-      @movies = Movie.with_ratings(@ratings_to_show, @sort_by)
-    
-      
+      @sort_by = ""
+      #@movies = Movie.all
+      @highlight = nil
+    @movies = Movie.with_ratings(@ratings_to_show, @sort_by)
     end
-    
     
   end
 
