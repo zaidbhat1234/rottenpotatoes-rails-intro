@@ -9,30 +9,50 @@ class MoviesController < ApplicationController
   def index
     ratings = params[:ratings]
     @all_ratings = Movie.all_ratings
-    
-    if ratings.nil?
-      ratings = @all_ratings
-    else
-      ratings = ratings.keys
+
+    #Store current rating and sort parameters in session to be remembered
+    if !params[:ratings].nil?
+      session[:ratings] = ratings 
     end
-        
-    @ratings_to_show = ratings
     
-    #Sorting by release date/title.
+    if !params[:sort].nil?
+      session[:sort] = params[:sort]
+    end
+
     sort_by = params[:sort]
-    @sort_by= sort_by
-    if sort_by == 'title'
-      @sort_by = sort_by
-      @highlight = 'title'
-    elsif sort_by=='release_date'
-      @sort_by = sort_by
-      @highlight = 'release_date'
+    #When all boxes are unchecked we want to display as all ratings are checked
+    if (params[:ratings].nil? and params[:commit]=="Refresh")
+      @ratings_to_show = Movie.all_ratings
+      @movies = Movie.with_ratings(@ratings_to_show, session[:sort])
+    #When returning from another pager it should remember the ratings/sort 
+    elsif (params[:ratings].nil? && !session[:ratings].nil?) || (params[:sort].nil? && !session[:sort].nil?)
+      redirect_to movies_path("ratings" => session[:ratings], "sort" => session[:sort])
+    
     else
-      @sort_by = ""
-      @highlight = nil
+      if !params[:ratings].nil?
+        ratings = params[:ratings].keys
+      else
+        ratings = @all_ratings
+      end
+      if sort_by == 'title'
+        @sort_by = sort_by
+        @highlight = 'title'
+      elsif sort_by=='release_date'
+        @sort_by = sort_by
+        @highlight = 'release_date'
+      else
+        @sort_by = ""
+        @ratings_to_show = ratings
+        @highlight = nil
+      end
+      
+      @ratings_to_show = ratings
+      @movies = Movie.with_ratings(@ratings_to_show, @sort_by)
+    
       
     end
-    @movies = Movie.with_ratings(@ratings_to_show, @sort_by)
+    
+    
   end
 
   def new
