@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
       @ratings_to_show = ratings
       @movies = Movie.with_ratings(@ratings_to_show, session[:sort])
     
-    elsif !params[:sort].nil? || !params[:ratings].nil?
+    else
       if !params[:ratings].nil?
         ratings = params[:ratings].keys
       else
