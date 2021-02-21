@@ -9,6 +9,10 @@ class MoviesController < ApplicationController
   def index
     ratings = params[:ratings]
     @all_ratings = Movie.all_ratings
+    
+    if (request.referrer).nil?
+      session.clear
+    end
 
     #Store current rating and sort parameters in session to be remembered
     if !params[:ratings].nil?
